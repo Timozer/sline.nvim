@@ -69,14 +69,21 @@ function M.StatusLine()
     return status
 end
 
-function M.SetUp(opts)
+function M.setup(opts)
     opts = opts or {}
+    if opts.data ~= nil then
+        M.data = opts.data
+    end
+
+    if opts.disabled_filetypes ~= nil then
+        M.disabled_filetypes = opts.disabled_filetypes
+    end
 
     vim.cmd([[
-    augroup SLINE
-    autocmd!
-    autocmd VimResized * redrawstatus
-    augroup END
+        augroup SLINE
+        autocmd!
+        autocmd VimResized * redrawstatus
+        augroup END
     ]])
 
     vim.go.statusline = "%{%v:lua.require('sline').StatusLine()%}"
